@@ -107,11 +107,14 @@ import { request } from 'http';
   app.post("/cars", (req: Request, res: Response) =>{
     const usedIDs = cars.map(car => car.id)
     const newCar: Car = req.body
+
+    // Should Eventually be put somewhere else. Will keep here for now.
+    const properties = ['make','type','model','cost','id']
     if(usedIDs.includes(req.body.id)){
       // Return an error
       return res.status(400)
                 .send(`ID ${req.body.id} is already in use.`)
-    }else if(newCar){
+    }else if(properties.every(key => newCar.hasOwnProperty(key))){
       // Append Car to List
       cars.push(newCar)
       return res.status(201)
