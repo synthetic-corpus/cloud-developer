@@ -70,7 +70,22 @@ import { Car, cars as cars_list } from './cars';
 
   // @TODO Add an endpoint to GET a list of cars
   // it should be filterable by make with a query paramater
-
+  app.get("/cars", (req: Request, res: Response) =>{
+    // > try it {{host}}/cars?make=the_name
+    let { make } = req.query;
+    if(!make && cars){
+      return res.status(200)
+                .send(cars)
+    }else if(make && cars){
+      const filtered = cars.filter((car) => car.make === make)
+      return res.status(200)
+                .send(filtered)
+    }else{
+      return res.status(404)
+                .send(`There seem to be no cars.`)
+    }
+    
+  })
   // @TODO Add an endpoint to get a specific car
   // it should require id
   // it should fail gracefully if no matching car is found
