@@ -2,6 +2,7 @@ import express, { Router, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 
 import { Car, cars as cars_list } from './cars';
+import { request } from 'http';
 
 (async () => {
   let cars:Car[]  = cars_list;
@@ -90,6 +91,7 @@ import { Car, cars as cars_list } from './cars';
   // it should require id
   // it should fail gracefully if no matching car is found
   app.get("/cars/:id", (req: Request, res: Response) => {
+    // > try it {{host}}/cars/0
     const id: number  = +req.params.id
     const car: Car = cars.filter((car) => car.id === id)[0]
     if(car){
@@ -102,6 +104,24 @@ import { Car, cars as cars_list } from './cars';
   })
   /// @TODO Add an endpoint to post a new car to our list
   // it should require id, type, model, and cost
+  app.post("/cars", (req: Request, res: Response) =>{
+    const usedIDs = cars.map(car => car.id)
+    const newCar: Car = req.body
+    if(usedIDs.includes(req.body.id)){
+      // Return an error
+      return res.status(400)
+                .send(`ID ${req.body.id} is already in use.`)
+    }else if(newCar){
+      // Append Car to List
+      cars.push(newCar)
+      return res.status(201)
+                .send(`New Car successfully added to Car Database`)
+    }else{
+      // Return a bad request
+      return res.status(400)
+                .send(`ID ${req.body} does not match Typescript Interface.`)
+    }
+  })
 
   // Start the Server
   app.listen( port, () => {
