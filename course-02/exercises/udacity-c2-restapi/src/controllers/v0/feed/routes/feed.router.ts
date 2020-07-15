@@ -32,7 +32,20 @@ router.patch('/:id',
     requireAuth, 
     async (req: Request, res: Response) => {
         //@TODO try it yourself
-        res.send(500).send("not implemented")
+        console.log(req.body)
+       const toUpdate = await FeedItem.findByPk(req.params.id)
+       if(toUpdate){
+           console.log("Found a thing to update...")
+           try{
+            toUpdate.update(req.body)
+            toUpdate.save()
+            res.status(202).send(toUpdate)
+           }catch(e){
+               res.status(401).send(`could not update with data. ${e}`)
+           }
+       }else{
+        res.status(404).send(`nothing found with id ${req.params.id}`)
+       }
 });
 
 
