@@ -32,10 +32,8 @@ router.patch('/:id',
     requireAuth, 
     async (req: Request, res: Response) => {
         //@TODO try it yourself
-        console.log(req.body)
        const toUpdate = await FeedItem.findByPk(req.params.id)
        if(toUpdate){
-           console.log("Found a thing to update...")
            try{
             toUpdate.update(req.body)
             toUpdate.save()
@@ -51,7 +49,7 @@ router.patch('/:id',
 
 // Get a signed url to put a new item in the bucket
 router.get('/signed-url/:fileName', 
-    requireAuth, 
+    requireAuth,
     async (req: Request, res: Response) => {
     let { fileName } = req.params;
     const url = AWS.getPutSignedUrl(fileName);
