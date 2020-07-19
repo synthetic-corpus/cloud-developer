@@ -5,7 +5,7 @@ export const config = {
     "database": "udagramjgonzagadev2",
     "host": "udagramjgonzagadev2.cthevzmgs3t7.us-west-1.rds.amazonaws.com",
     "dialect": "postgres",
-    "aws_region": "us-west-1b",
+    "aws_region": "us-west-1",
     "aws_profile": "default",
     "aws_media_bucket": "jtg-udaboom-dev"
   },
