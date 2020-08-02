@@ -38,7 +38,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "mocha": "^6.2.3",
-    "ts-node-dev": "^1.0.0-pre.56",
+    "ts-node-dev": "^1.0.0-pre.47",
     "tslint": "^5.20.1",
     "typescript": "^3.9.7"
   }
