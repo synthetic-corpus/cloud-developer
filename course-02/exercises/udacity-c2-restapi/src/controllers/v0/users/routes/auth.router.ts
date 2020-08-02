@@ -26,9 +26,9 @@ async function comparePasswords(plainTextPassword: string, hash: string): Promis
 
 function generateJWT(user: User): string {
     //@TODO Use jwt to create a new JWT Payload containing
-    return jwt.sign(user, config.JWT.secret)
+    const TOKEN = jwt.sign(JSON.stringify(user), config.JWT.secret)
+    return TOKEN
 }
-
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
     if (!req.headers || !req.headers.authorization){
          return res.status(401).send({ message: 'No authorization headers.' });
@@ -125,7 +125,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     // Generate JWT
     const jwt = generateJWT(savedUser);
-
+    console.log("I made a JSON web token, ",jwt)
     return res.status(201).send({token: jwt, user: savedUser.short()});
 });
 
