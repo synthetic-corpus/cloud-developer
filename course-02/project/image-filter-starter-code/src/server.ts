@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import {filterImageFromURL, deleteLocalFiles, validateImageURL} from './util/util';
 
 (async () => {
 
@@ -31,7 +31,11 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   //! END @TODO1
   app.get("/filteredimage", async(req,res)=>{
-    res.send(req.query.image_url)
+    if(validateImageURL(req.query.image_url)){
+      res.status(200).send(req.query)
+    }else{
+      res.status(400).send(req.query)
+    }
   })
 
 

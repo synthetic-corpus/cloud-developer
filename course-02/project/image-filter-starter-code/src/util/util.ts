@@ -32,3 +32,15 @@ export async function deleteLocalFiles(files:Array<string>){
         fs.unlinkSync(file);
     }
 }
+
+/* validate a URL */
+export function validateImageURL(address :string): boolean{
+    // Is it even written correctly?
+    try{
+        const newAddress = new URL(address)
+    }catch(TypeError){
+        return false
+    }
+    // Is it written like we'd expect an image?
+    return address.match(/\.(jpeg|jpg|gif|png)$/) != null
+}
