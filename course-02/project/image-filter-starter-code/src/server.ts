@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles, validateImageURL} from './util/util';
+import { filter } from 'bluebird';
 
 (async () => {
 
@@ -32,7 +33,18 @@ import {filterImageFromURL, deleteLocalFiles, validateImageURL} from './util/uti
   //! END @TODO1
   app.get("/filteredimage", async(req,res)=>{
     if(validateImageURL(req.query.image_url)){
-      res.status(200).send(req.query)
+      console.log(req.query.image_url)
+      await filterImageFromURL(req.query.image_url).then(
+        (data)=>{
+          res.status(201).sendFile(data)
+        },
+        (error)=>{
+          throw "error"
+        }
+      ).catch((error)=>{
+        res.send(500).send("Still Borken")
+      })
+      
     }else{
       res.status(400).send(req.query)
     }
