@@ -37,6 +37,7 @@ import { filter } from 'bluebird';
       await filterImageFromURL(req.query.image_url).then(
         (data)=>{
           res.status(201).sendFile(data)
+          deleteLocalFiles([data])
         },
         (error)=>{
           throw "error"
