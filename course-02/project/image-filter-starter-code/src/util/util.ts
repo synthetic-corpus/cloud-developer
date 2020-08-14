@@ -42,5 +42,5 @@ export function validateImageURL(address :string): boolean{
         return false
     }
     // Is it written like we'd expect an image?
-    return address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)/) != null
+    return address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)$/) != null
 }
