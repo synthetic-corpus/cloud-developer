@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {filterImageFromURL, deleteLocalFiles, validateImageURL} from './util/util';
+import {filterImageFromURL, deleteLocalFiles, validateImageURL, getURLImage} from './util/util';
 import { filter } from 'bluebird';
 
 (async () => {
@@ -34,6 +34,8 @@ import { filter } from 'bluebird';
   app.get("/filteredimage", async(req,res)=>{
     if(validateImageURL(req.query.image_url)){
       console.log(req.query.image_url)
+      const filePath = await getURLImage(req.query.image_url)
+      console.log("File Path is ",filePath)
       await filterImageFromURL(req.query.image_url).then(
         (data)=>{
           res.status(201).sendFile(data, (error)=>{

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import Jimp = require('jimp');
-import Http = require('http')
+import Http = require('https')
 
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
@@ -43,7 +43,7 @@ export function validateImageURL(address: string): boolean{
         return false
     }
     // Is it written like we'd expect an image?
-    return address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)$/) != null
+    return true //address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)$/) != null
 }
 
 /* Get image from URL and Save it Locally to Temp */
