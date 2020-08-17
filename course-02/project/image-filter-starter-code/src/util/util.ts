@@ -1,5 +1,6 @@
 import fs from 'fs';
 import Jimp = require('jimp');
+import Http = require('http')
 
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
@@ -34,7 +35,7 @@ export async function deleteLocalFiles(files:Array<string>){
 }
 
 /* validate a URL */
-export function validateImageURL(address :string): boolean{
+export function validateImageURL(address: string): boolean{
     // Is it even written correctly?
     try{
         const newAddress = new URL(address)
@@ -43,4 +44,15 @@ export function validateImageURL(address :string): boolean{
     }
     // Is it written like we'd expect an image?
     return address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)$/) != null
+}
+
+/* Get image from URL and Save it Locally to Temp */
+
+export async function getURLImage(address: string): string {
+    const fileName = '/tmp/filtered.'+Math.floor(Math.random() * 2000)+'.jpg'
+    const file = fs.createWriteStream(fileName)
+    await Http.get(address, (response) =>{
+        response.pipe(file)
+    })
+    return fileName
 }
