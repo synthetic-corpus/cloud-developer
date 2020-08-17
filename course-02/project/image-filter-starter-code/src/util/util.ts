@@ -47,12 +47,12 @@ export function validateImageURL(address: string): boolean{
 }
 
 /* Get image from URL and Save it Locally to Temp */
-
-export async function getURLImage(address: string): string {
+export async function getURLImage(address: string): Promise<any> {
     const fileName = '/tmp/filtered.'+Math.floor(Math.random() * 2000)+'.jpg'
     const file = fs.createWriteStream(fileName)
-    await Http.get(address, (response) =>{
+    return Http.get(address, (response) =>{
         response.pipe(file)
+        return fileName
     })
-    return fileName
+    
 }
