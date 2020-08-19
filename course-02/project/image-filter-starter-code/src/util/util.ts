@@ -43,16 +43,5 @@ export function validateImageURL(address: string): boolean{
         return false
     }
     // Is it written like we'd expect an image?
-    return true //address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)$/) != null
-}
-
-/* Get image from URL and Save it Locally to Temp */
-export async function getURLImage(address: string): Promise<any> {
-    const fileName = '/tmp/filtered.'+Math.floor(Math.random() * 2000)+'.jpg'
-    const file = fs.createWriteStream(fileName)
-    return Http.get(address, (response) =>{
-        response.pipe(file)
-        return fileName
-    })
-    
+    return address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)$/) != null
 }

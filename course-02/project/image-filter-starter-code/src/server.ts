@@ -33,9 +33,6 @@ import { filter } from 'bluebird';
   //! END @TODO1
   app.get("/filteredimage", async(req,res)=>{
     if(validateImageURL(req.query.image_url)){
-      console.log(req.query.image_url)
-      const filePath = await getURLImage(req.query.image_url)
-      console.log("File Path is ",filePath)
       await filterImageFromURL(req.query.image_url).then(
         (data)=>{
           res.status(201).sendFile(data, (error)=>{
