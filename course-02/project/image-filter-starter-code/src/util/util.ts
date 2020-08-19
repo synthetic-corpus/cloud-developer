@@ -1,6 +1,7 @@
 import fs from 'fs';
 import Jimp = require('jimp');
-import Http = require('https')
+const urlExists = require('url-exists');
+
 
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
@@ -36,6 +37,7 @@ export async function deleteLocalFiles(files:Array<string>){
 
 /* validate a URL */
 export function validateImageURL(address: string): boolean{
+    /*
     // Is it even written correctly?
     try{
         const newAddress = new URL(address)
@@ -43,5 +45,20 @@ export function validateImageURL(address: string): boolean{
         return false
     }
     // Is it written like we'd expect an image?
-    return address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)$/) != null
+    return address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)/) != null
+    */
+   
+    //if it looks like it would have an image, validate the URL
+    if(address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)/) != null) {
+        return urlExists(address) //returns false on a 4xx error
+    }else{
+        return false
+    }
+}
+
+/* Extracts the Query string and turns it into a URL that can be input into jimp */
+export function parseUrl(query: string): string{
+    const queriedUrl = query.replace("image_url=",'')
+    console.log("**** I have a string like... ",queriedUrl)
+    return queriedUrl
 }

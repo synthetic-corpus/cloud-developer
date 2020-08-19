@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {filterImageFromURL, deleteLocalFiles, validateImageURL, getURLImage} from './util/util';
+import {filterImageFromURL, deleteLocalFiles, validateImageURL, parseUrl} from './util/util';
 import { filter } from 'bluebird';
 
 (async () => {
@@ -32,8 +32,11 @@ import { filter } from 'bluebird';
 
   //! END @TODO1
   app.get("/filteredimage", async(req,res)=>{
-    if(validateImageURL(req.query.image_url)){
-      await filterImageFromURL(req.query.image_url).then(
+    // AWS signed URLs must be extracted as raw Strings.
+    // Otherwise, Node Turns them into an object that Jimp.read can't use.
+    const extractedUrl = parseUrl((req._parsedUrl.query))
+    if(validateImageURL(extractedUrl)){
+      await filterImageFromURL(extractedUrl).then(
         (data)=>{
           res.status(201).sendFile(data, (error)=>{
             if(error){
