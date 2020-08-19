@@ -56,6 +56,21 @@ router.get('/signed-url/:fileName',
     res.status(201).send({url: url});
 });
 
+/* This will not return anything to the front end or to the user.
+It will simply upload a filtered copy of an image to the same bucket as the
+unfiltered images.
+
+This minimal functionality done for the sake of brevity. */
+/*
+router.get('/filterImage/:id',
+    async(req: Request, res: Response) => {
+        const toFilter = await FeedItem.findByPk(req.params.id)
+        const signedURL = AWS.getGetSignedUrl(toFilter.url)
+        
+        
+    }
+) */
+
 // Post meta data and the filename after a file is uploaded 
 // NOTE the file name is they key name in the s3 bucket.
 // body : {caption: string, fileName: string};
