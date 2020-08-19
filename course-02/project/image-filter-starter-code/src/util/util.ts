@@ -1,6 +1,8 @@
 import fs from 'fs';
 import Jimp = require('jimp');
-const urlExists = require('url-exists');
+import Https = require('https')
+
+
 
 
 // filterImageFromURL
@@ -35,8 +37,11 @@ export async function deleteLocalFiles(files:Array<string>){
     }
 }
 
+function urlExists(address: string): boolean {
+    return true
+}
 /* validate a URL */
-export function validateImageURL(address: string): boolean{
+export async function validateImageURL(address: string): boolean{
     /*
     // Is it even written correctly?
     try{
@@ -50,7 +55,9 @@ export function validateImageURL(address: string): boolean{
    
     //if it looks like it would have an image, validate the URL
     if(address.toLowerCase().match(/(.jpeg|.jpg|.gif|.png)/) != null) {
-        return urlExists(address) //returns false on a 4xx error
+        const value = urlExists(address)//returns false on a 4xx error
+        console.log("**** Got the Returned value of ",value)
+        return value
     }else{
         return false
     }
