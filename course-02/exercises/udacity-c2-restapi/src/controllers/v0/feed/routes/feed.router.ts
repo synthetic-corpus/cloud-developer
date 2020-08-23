@@ -6,9 +6,7 @@ import * as AWS from '../../../../aws';
 
 
 /* Download Imports */
-
-const Https = require('https')
-const fs = require('fs')
+const request = require('request')
 
 const router: Router = Router();
 
@@ -64,8 +62,9 @@ router.get('/signed-url/:fileName',
 });
 
 /* This will not return anything to the front end or to the user.
-It will simply upload a filtered copy of an image to the same bucket as the
-unfiltered images.
+It will simply call a signed URL.
+
+Inteded plan? Capture the data and save it the bucket. Did not finish.
 
 This minimal functionality done for the sake of brevity. */
 
@@ -75,10 +74,15 @@ router.get('/filterimage/:id',
         const signedURL = AWS.getGetSignedUrl(toFilter.url)
         const cloudFilterAPI = process.env.CLOUD_MICRO_FILTER
         const apiCall = cloudFilterAPI + '/filteredimage?image_url=' + signedURL
-        // Make the Request to the Cloud API
-
+        try{
+            await request(apiCall,(req: Request, res: Response) => {
+                // Do Nothing
+            })
+            res.status(200).send("Micro Filter Has Been Called")
+        }catch{
+            res.status(500).send("Something Broke")
         }
-)
+    });
 
 // Post meta data and the filename after a file is uploaded 
 // NOTE the file name is they key name in the s3 bucket.
