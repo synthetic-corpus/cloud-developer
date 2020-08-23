@@ -3,6 +3,13 @@ import { FeedItem } from '../models/FeedItem';
 import { requireAuth } from '../../users/routes/auth.router';
 import * as AWS from '../../../../aws';
 
+
+
+/* Download Imports */
+
+const Https = require('https')
+const fs = require('fs')
+
 const router: Router = Router();
 
 // Get all feed items
@@ -61,15 +68,17 @@ It will simply upload a filtered copy of an image to the same bucket as the
 unfiltered images.
 
 This minimal functionality done for the sake of brevity. */
-/*
-router.get('/filterImage/:id',
+
+router.get('/filterimage/:id',
     async(req: Request, res: Response) => {
         const toFilter = await FeedItem.findByPk(req.params.id)
         const signedURL = AWS.getGetSignedUrl(toFilter.url)
-        
-        
-    }
-) */
+        const cloudFilterAPI = process.env.CLOUD_MICRO_FILTER
+        const apiCall = cloudFilterAPI + '/filteredimage?image_url=' + signedURL
+        // Make the Request to the Cloud API
+
+        }
+)
 
 // Post meta data and the filename after a file is uploaded 
 // NOTE the file name is they key name in the s3 bucket.
