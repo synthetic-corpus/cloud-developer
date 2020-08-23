@@ -52,6 +52,5 @@ export function validateImageURL(address: string): boolean{
 /* Extracts the Query string and turns it into a URL that can be input into jimp */
 export function parseUrl(query: string): string{
     const queriedUrl = query.replace("image_url=",'')
-    console.log("**** I have a string like... ",queriedUrl)
     return queriedUrl
 }
