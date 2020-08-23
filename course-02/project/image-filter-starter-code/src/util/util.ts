@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Jimp = require('jimp');
-import Https = require('https')
-import Request = require('request')
+
+
 
 
 
